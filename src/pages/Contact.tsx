@@ -12,12 +12,12 @@ const ContactPage = () => (
           <div className="flex flex-col items-center gap-2">
             <MapPin className="h-6 w-6 text-primary" />
             <span className="font-medium">Location</span>
-            <p className="text-sm text-muted-foreground">Mira Bhayandar, Maharashtra, India</p>
+            <p className="text-sm text-muted-foreground">Based in Mira Bhayandar, Maharashtra, India<br/>Serving worldwide</p>
           </div>
           <div className="flex flex-col items-center gap-2">
             <Mail className="h-6 w-6 text-primary" />
             <span className="font-medium">Email</span>
-            <p className="text-sm text-muted-foreground">hello@quantrio.in</p>
+            <p className="text-sm text-muted-foreground">hello@quantrio.com</p>
           </div>
           <div className="flex flex-col items-center gap-2">
             <PhoneCall className="h-6 w-6 text-primary" />
@@ -33,10 +33,7 @@ const ContactPage = () => (
         <ConsultationForm variant="light" />
       </div>
     </section>
-    {/* Map placeholder */}
-    <section className="bg-muted h-64 flex items-center justify-center">
-      <p className="text-muted-foreground">Map — Mira Bhayandar, Maharashtra</p>
-    </section>
+
   </Layout>
 );
 

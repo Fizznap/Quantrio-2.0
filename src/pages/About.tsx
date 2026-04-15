@@ -10,7 +10,7 @@ const AboutPage = () => (
       <div className="container max-w-3xl text-center">
         <SectionHeading title="About Quantrio" subtitle="We're on a mission to help local businesses thrive with AI automation." />
         <p className="text-muted-foreground leading-relaxed mb-8">
-          Based in Mira Bhayandar, Maharashtra, Quantrio was founded with a simple belief — every local business
+          Operating globally, Quantrio was founded with a simple belief — every business
           deserves access to the same powerful automation tools that big companies use. We specialize in building
           AI-powered systems that generate leads, automate customer communication, and increase bookings for
           salons, clinics, gyms, real estate agents, and more.

@@ -4,11 +4,13 @@ import SectionHeading from "@/components/SectionHeading";
 import ConsultationForm from "@/components/ConsultationForm";
 import Layout from "@/components/Layout";
 import ScrollReveal from "@/components/ScrollReveal";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { trackEvent } from "@/lib/analytics";
 import {
   MessageSquare, Phone, Globe, PhoneOff, Mic, Settings, Star, RefreshCw,
   ArrowRight, Zap, Clock, Bot, CalendarCheck, Minimize2, TrendingUp,
   Scissors, Stethoscope, Dumbbell, Sparkles, Heart, Building, GraduationCap,
-  BarChart3, Timer, Calendar, MapPin, Mail, PhoneCall,
+  BarChart3, Timer, Calendar, MapPin, Mail, PhoneCall, Utensils, CheckCircle2
 } from "lucide-react";
 
 const services = [
@@ -23,9 +25,9 @@ const services = [
 ];
 
 const steps = [
-  { num: "01", title: "We Build Your Website", desc: "A high-converting, mobile-optimized site tailored to your business." },
-  { num: "02", title: "We Connect AI Tools", desc: "Chatbots, automation, and CRM integrated seamlessly." },
-  { num: "03", title: "You Get More Leads", desc: "Watch bookings, calls, and enquiries grow on autopilot." },
+  { num: "01", title: "We understand your business workflow", desc: "We map out your manual processes and identify exact automation opportunities." },
+  { num: "02", title: "We implement AI automation systems", desc: "We deploy chatbots, CRM workflows, and WhatsApp automation seamlessly." },
+  { num: "03", title: "You receive more enquiries and bookings automatically", desc: "Watch leads and customer engagement grow on autopilot 24/7." },
 ];
 
 const benefits = [
@@ -38,19 +40,41 @@ const benefits = [
 ];
 
 const industries = [
-  { icon: Scissors, label: "Salon" },
-  { icon: Stethoscope, label: "Dental Clinic" },
-  { icon: Dumbbell, label: "Gym" },
-  { icon: Sparkles, label: "Spa" },
-  { icon: Heart, label: "Clinic" },
-  { icon: Building, label: "Real Estate" },
-  { icon: GraduationCap, label: "Coaching Classes" },
+  { icon: Scissors, label: "Salons" },
+  { icon: Heart, label: "Clinics" },
+  { icon: Stethoscope, label: "Dentists" },
+  { icon: Dumbbell, label: "Gyms" },
+  { icon: Sparkles, label: "Spas" },
+  { icon: Building, label: "Real estate agents" },
+  { icon: GraduationCap, label: "Coaching institutes" },
+  { icon: MapPin, label: "Local service businesses" },
 ];
 
 const caseStudies = [
-  { icon: BarChart3, metric: "3x", label: "More Enquiries", desc: "A local salon tripled their online enquiries within 60 days." },
-  { icon: Timer, metric: "80%", label: "Faster Response", desc: "A dental clinic reduced response time from hours to seconds." },
-  { icon: Calendar, metric: "2x", label: "More Appointments", desc: "A gym doubled their monthly bookings using AI follow-ups." },
+  { 
+    title: "Automation Demo Scenario", 
+    tagline: "Local clinic enquiry automation simulation", 
+    problem: "Customers asked repetitive questions about services and availability.",
+    solution: "AI chatbot configured to respond instantly and capture enquiry details.",
+    result: ["Faster response time", "Structured lead capture", "Reduced manual workload"]
+  }
+];
+
+const whoHelps = [
+  { label: "Local service businesses", icon: MapPin },
+  { label: "Businesses receiving frequent customer enquiries", icon: MessageSquare },
+  { label: "Businesses missing calls or messages", icon: PhoneOff },
+  { label: "Businesses wanting more bookings", icon: Calendar },
+  { label: "Businesses wanting automation but not technical complexity", icon: Bot },
+];
+
+const faqs = [
+  { question: "What businesses can use AI automation?", answer: "Any service-based business that communicates with customers regularly can benefit." },
+  { question: "Do I need technical knowledge?", answer: "No. We handle the complete setup." },
+  { question: "How long does setup take?", answer: "Most systems are ready within 3–7 days." },
+  { question: "Will AI replace staff?", answer: "No. AI assists staff by handling repetitive tasks." },
+  { question: "Can AI reply to customers automatically?", answer: "Yes, AI can answer common questions instantly." },
+  { question: "Is AI suitable for small businesses?", answer: "Yes, automation helps small businesses compete with larger companies." },
 ];
 
 const Index = () => (
@@ -64,21 +88,46 @@ const Index = () => (
       <div className="container relative text-center max-w-3xl">
         <ScrollReveal>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-foreground leading-tight">
-            AI Automation That Brings You{" "}
-            <span className="text-primary">More Customers</span>
+            Get More Leads and Customers Using{" "}
+            <span className="text-primary">AI Automation</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            We help businesses in Mira Bhayandar generate more leads, calls, and bookings using AI-powered systems.
+            We help businesses increase enquiries, bookings, and customer engagement using AI chatbots, WhatsApp automation, and smart workflows.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="text-base px-8">
-              <Link to="/book">Book Free Consultation</Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <Button asChild size="lg" className="text-base px-8" onClick={() => trackEvent("audit_cta_click", { location: "hero" })}>
+              <Link to="/free-audit">Get Free AI Audit</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="text-base px-8">
+            <Button asChild variant="outline" size="lg" className="text-base px-8" onClick={() => trackEvent("secondary_cta_click", { location: "hero" })}>
               <Link to="/services">View Services</Link>
             </Button>
           </div>
+          
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm text-muted-foreground font-medium">
+            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> No technical knowledge required</span>
+            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> Setup in days, not months</span>
+            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /> Works for small businesses</span>
+          </div>
         </ScrollReveal>
+      </div>
+    </section>
+
+    {/* Who This Is For */}
+    <section className="py-20 bg-card">
+      <div className="container">
+        <ScrollReveal>
+          <SectionHeading title="Who Quantrio Helps" subtitle="If your business receives regular customer enquiries but struggles to respond instantly, AI automation can significantly improve conversion rates." />
+        </ScrollReveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {whoHelps.map((w, i) => (
+            <ScrollReveal key={i} delay={i * 80}>
+              <div className="bg-canvas rounded-xl p-6 text-center border border-black/[0.05] h-full flex flex-col items-center justify-center min-h-[140px]">
+                <w.icon className="h-6 w-6 text-primary mb-3" />
+                <span className="font-semibold text-sm leading-tight">{w.label}</span>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
       </div>
     </section>
 
@@ -171,14 +220,42 @@ const Index = () => (
         <ScrollReveal>
           <SectionHeading title="Results That Speak" subtitle="See the impact AI automation has on businesses like yours." />
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {caseStudies.map((c, i) => (
-            <ScrollReveal key={c.label} delay={i * 150}>
-              <div className="bg-canvas rounded-xl p-8 text-center">
-                <c.icon className="h-8 w-8 text-primary mx-auto mb-3" />
-                <div className="text-4xl font-extrabold text-primary mb-1">{c.metric}</div>
-                <div className="font-semibold mb-2">{c.label}</div>
-                <p className="text-sm text-muted-foreground">{c.desc}</p>
+            <ScrollReveal key={i} delay={150}>
+              <div className="bg-canvas rounded-xl p-8 border border-black/[0.05]">
+                <div className="flex items-center gap-2 text-primary font-medium mb-2 text-sm uppercase tracking-wider">
+                  <Star className="w-4 h-4" /> {c.tagline}
+                </div>
+                <h3 className="text-2xl font-bold mb-6">{c.title}</h3>
+                
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-semibold text-destructive mb-1">Problem</h4>
+                      <p className="text-muted-foreground text-sm">{c.problem}</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-primary mb-1">Solution</h4>
+                      <p className="text-muted-foreground text-sm">{c.solution}</p>
+                    </div>
+                  </div>
+                  <div className="bg-primary/5 rounded-lg p-6 border border-primary/10">
+                    <h4 className="font-semibold text-emerald-600 dark:text-emerald-400 mb-4">Result</h4>
+                    <ul className="space-y-3">
+                      {c.result.map(res => (
+                        <li key={res} className="flex items-start text-sm font-medium">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500 mr-2 shrink-0 mt-0.5" />
+                          {res}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="mt-8 pt-6 border-t flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground uppercase font-semibold tracking-wider">Sample implementation scenario</span>
+                </div>
               </div>
             </ScrollReveal>
           ))}
@@ -186,14 +263,80 @@ const Index = () => (
       </div>
     </section>
 
-    {/* Consultation CTA */}
-    <section className="py-20 bg-primary" id="book">
-      <div className="container text-center">
+    {/* Primary Offer */}
+    <section className="py-20 bg-primary/5 text-center">
+      <div className="container max-w-3xl">
         <ScrollReveal>
-          <SectionHeading title="Ready to Automate Your Business?" subtitle="Fill in the form and we'll get back to you within 24 hours." light />
+          <SectionHeading title="Start With a Free AI Automation Audit" subtitle="Discover where your business can save time and capture more leads using AI automation. We analyze how customers contact your business and identify automation opportunities." />
+          
+          <div className="grid sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto mb-10">
+            <div className="bg-canvas p-4 rounded-lg flex items-start gap-3 shadow-sm border border-black/[0.05]">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <span className="text-sm font-medium pt-1">Identify repetitive tasks</span>
+            </div>
+            <div className="bg-canvas p-4 rounded-lg flex items-start gap-3 shadow-sm border border-black/[0.05]">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <span className="text-sm font-medium pt-1">Find missed lead opportunities</span>
+            </div>
+            <div className="bg-canvas p-4 rounded-lg flex items-start gap-3 shadow-sm border border-black/[0.05]">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <span className="text-sm font-medium pt-1">Recommend AI automation tools</span>
+            </div>
+            <div className="bg-canvas p-4 rounded-lg flex items-start gap-3 shadow-sm border border-black/[0.05]">
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+              <span className="text-sm font-medium pt-1">Estimate efficiency improvements</span>
+            </div>
+          </div>
+
+          <Button asChild size="lg" className="text-base px-8" onClick={() => trackEvent("audit_cta_click", { location: "primary_offer" })}>
+            <Link to="/free-audit">Get Free Audit</Link>
+          </Button>
         </ScrollReveal>
-        <ScrollReveal delay={200}>
-          <ConsultationForm variant="dark" />
+      </div>
+    </section>
+
+    {/* FAQs */}
+    <section className="py-20 bg-canvas">
+      <div className="container max-w-3xl">
+        <ScrollReveal>
+          <SectionHeading title="Frequently Asked Questions" />
+        </ScrollReveal>
+        <ScrollReveal delay={100}>
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, i) => (
+              <AccordionItem key={i} value={`item-${i}`}>
+                <AccordionTrigger className="text-left font-semibold">{faq.question}</AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed">{faq.answer}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </ScrollReveal>
+      </div>
+    </section>
+
+    {/* Consultation CTA */}
+    <section className="py-20 bg-primary text-primary-foreground" id="book">
+      <div className="container text-center max-w-3xl">
+        <ScrollReveal>
+          <h2 className="text-3xl font-bold tracking-tight mb-4 text-white">Ready to Automate Your Business?</h2>
+          <p className="text-white/80 mb-8 max-w-xl mx-auto">
+            Take the first step towards massive efficiency. Claim your free automation audit and let's find the bottlenecks restricting your growth.
+          </p>
+          <Button asChild variant="secondary" size="lg" className="text-base px-8" onClick={() => trackEvent("audit_cta_click", { location: "bottom" })}>
+            <Link to="/free-audit">Get Free Audit</Link>
+          </Button>
+          <div className="mt-8 flex items-center justify-center gap-6 opacity-80 text-sm">
+            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> Secure & reliable</span>
+            <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> Free custom report</span>
+          </div>
         </ScrollReveal>
       </div>
     </section>
@@ -209,7 +352,7 @@ const Index = () => (
             <div className="flex flex-col items-center gap-2">
               <MapPin className="h-6 w-6 text-primary" />
               <span className="font-medium">Location</span>
-              <p className="text-sm text-muted-foreground">Mira Bhayandar, Maharashtra, India</p>
+              <p className="text-sm text-muted-foreground">Serving Worldwide</p>
             </div>
             <div className="flex flex-col items-center gap-2">
               <Mail className="h-6 w-6 text-primary" />

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { BarChart3, Timer, Calendar, TrendingUp, ArrowRight } from "lucide-react";
 
 const studies = [
-  { icon: BarChart3, title: "Local Salon — 3x More Enquiries", metric: "3x", desc: "By implementing an AI chatbot and WhatsApp automation, a local salon in Mira Bhayandar tripled their monthly enquiries within 60 days.", tags: ["AI Chatbot", "WhatsApp"] },
+  { icon: BarChart3, title: "Local Salon — 3x More Enquiries", metric: "3x", desc: "By implementing an AI chatbot and WhatsApp automation, a salon tripled their monthly enquiries within 60 days.", tags: ["AI Chatbot", "WhatsApp"] },
   { icon: Timer, title: "Dental Clinic — 80% Faster Response", metric: "80%", desc: "A dental clinic reduced their average response time from 3 hours to under 30 seconds using our missed call text-back and chatbot system.", tags: ["Missed Call", "Chatbot"] },
   { icon: Calendar, title: "Gym — 2x More Bookings", metric: "2x", desc: "Automated follow-up sequences and a lead generation website helped a local gym double their monthly trial bookings.", tags: ["Follow-ups", "Website"] },
   { icon: TrendingUp, title: "Real Estate — 150% More Leads", metric: "150%", desc: "A real estate agent captured 150% more leads through a combination of a high-converting website and CRM automation.", tags: ["CRM", "Lead Gen"] },

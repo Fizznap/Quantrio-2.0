@@ -6,7 +6,7 @@ const Footer = () => (
       <div>
         <h3 className="text-lg font-bold mb-3">Quantrio</h3>
         <p className="text-sm opacity-70 leading-relaxed">
-          AI automation solutions for local businesses in Mira Bhayandar and beyond.
+          AI automation solutions for businesses worldwide.
         </p>
       </div>
       <div>
@@ -28,8 +28,9 @@ const Footer = () => (
       <div>
         <h4 className="font-semibold mb-3 text-sm">Contact</h4>
         <div className="text-sm opacity-70 space-y-1">
-          <p>Mira Bhayandar, Maharashtra, India</p>
-          <p>hello@quantrio.in</p>
+          <p>Based in Mira Bhayandar, Maharashtra, India</p>
+          <p>Serving clients worldwide</p>
+          <p>hello@quantrio.com</p>
           <p>+91 98XXX XXXXX</p>
         </div>
       </div>

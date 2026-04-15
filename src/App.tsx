@@ -10,6 +10,8 @@ import About from "./pages/About";
 import CaseStudies from "./pages/CaseStudies";
 import Contact from "./pages/Contact";
 import Book from "./pages/Book";
+import FreeAudit from "./pages/FreeAudit";
+import AuditConfirmation from "./pages/AuditConfirmation";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/case-studies" element={<CaseStudies />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/book" element={<Book />} />
+          <Route path="/free-audit" element={<FreeAudit />} />
+          <Route path="/audit-confirmation" element={<AuditConfirmation />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<NotFound />} />

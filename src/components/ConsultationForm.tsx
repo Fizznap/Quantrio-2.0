@@ -52,7 +52,7 @@ const ConsultationForm = ({ variant = "dark" }: ConsultationFormProps) => {
       <Input name="business_name" placeholder="Business Name" value={form.business_name} onChange={handleChange} className={inputClass} />
       <Input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} className={inputClass} />
       <Input name="email" placeholder="Email" type="email" value={form.email} onChange={handleChange} className={inputClass} />
-      <Textarea name="message" placeholder="Tell us about your business..." value={form.message} onChange={handleChange} className={`sm:col-span-2 ${inputClass}`} rows={4} />
+      <Textarea name="message" placeholder="What do you want to automate?" value={form.message} onChange={handleChange} className={`sm:col-span-2 ${inputClass}`} rows={4} />
       <div className="sm:col-span-2">
         <Button type="submit" size="lg" disabled={loading} className={`w-full ${isOnBlue ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90" : ""}`}>
           {loading ? "Submitting..." : "Book Free Consultation"}
