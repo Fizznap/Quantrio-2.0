@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import SectionHeading from "@/components/SectionHeading";
 import ConsultationForm from "@/components/ConsultationForm";
 import Layout from "@/components/Layout";
+import ScrollReveal from "@/components/ScrollReveal";
 import {
   MessageSquare, Phone, Globe, PhoneOff, Mic, Settings, Star, RefreshCw,
   ArrowRight, Zap, Clock, Bot, CalendarCheck, Minimize2, TrendingUp,
@@ -61,38 +62,44 @@ const Index = () => (
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       </div>
       <div className="container relative text-center max-w-3xl">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-foreground leading-tight">
-          AI Automation That Brings You{" "}
-          <span className="text-primary">More Customers</span>
-        </h1>
-        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          We help businesses in Mira Bhayandar generate more leads, calls, and bookings using AI-powered systems.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild size="lg" className="text-base px-8">
-            <Link to="/book">Book Free Consultation</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg" className="text-base px-8">
-            <Link to="/services">View Services</Link>
-          </Button>
-        </div>
+        <ScrollReveal>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-foreground leading-tight">
+            AI Automation That Brings You{" "}
+            <span className="text-primary">More Customers</span>
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            We help businesses in Mira Bhayandar generate more leads, calls, and bookings using AI-powered systems.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="text-base px-8">
+              <Link to="/book">Book Free Consultation</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="text-base px-8">
+              <Link to="/services">View Services</Link>
+            </Button>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
 
     {/* Services */}
     <section className="py-20 bg-card" id="services">
       <div className="container">
-        <SectionHeading title="Our Services" subtitle="End-to-end AI automation solutions tailored for local businesses." />
+        <ScrollReveal>
+          <SectionHeading title="Our Services" subtitle="End-to-end AI automation solutions tailored for local businesses." />
+        </ScrollReveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((s) => (
-            <div key={s.title} className="bg-canvas rounded-xl p-6 hover:shadow-lg transition-shadow group">
-              <s.icon className="h-8 w-8 text-primary mb-4" />
-              <h3 className="font-semibold mb-2">{s.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-3">{s.desc}</p>
-              <Link to="/services" className="text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                Learn more <ArrowRight className="h-3 w-3" />
-              </Link>
-            </div>
+          {services.map((s, i) => (
+            <ScrollReveal key={s.title} delay={i * 80}>
+              <div className="bg-canvas rounded-xl p-6 hover:shadow-lg transition-shadow group h-full">
+                <s.icon className="h-8 w-8 text-primary mb-4" />
+                <h3 className="font-semibold mb-2">{s.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3">{s.desc}</p>
+                <Link to="/services" className="text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  Learn more <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -101,16 +108,20 @@ const Index = () => (
     {/* How it works */}
     <section className="py-20 bg-canvas">
       <div className="container">
-        <SectionHeading title="How It Works" subtitle="Three simple steps to transform your business." />
+        <ScrollReveal>
+          <SectionHeading title="How It Works" subtitle="Three simple steps to transform your business." />
+        </ScrollReveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {steps.map((s) => (
-            <div key={s.num} className="text-center">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground text-lg font-bold mb-4">
-                {s.num}
+          {steps.map((s, i) => (
+            <ScrollReveal key={s.num} delay={i * 150}>
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground text-lg font-bold mb-4">
+                  {s.num}
+                </div>
+                <h3 className="font-semibold text-lg mb-2">{s.title}</h3>
+                <p className="text-sm text-muted-foreground">{s.desc}</p>
               </div>
-              <h3 className="font-semibold text-lg mb-2">{s.title}</h3>
-              <p className="text-sm text-muted-foreground">{s.desc}</p>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -119,13 +130,17 @@ const Index = () => (
     {/* Benefits */}
     <section className="py-20 bg-card">
       <div className="container">
-        <SectionHeading title="Why Choose Quantrio?" subtitle="Real results for your business." />
+        <ScrollReveal>
+          <SectionHeading title="Why Choose Quantrio?" subtitle="Real results for your business." />
+        </ScrollReveal>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-          {benefits.map((b) => (
-            <div key={b.label} className="flex flex-col items-center text-center p-6 rounded-xl bg-canvas">
-              <b.icon className="h-8 w-8 text-primary mb-3" />
-              <span className="font-medium text-sm">{b.label}</span>
-            </div>
+          {benefits.map((b, i) => (
+            <ScrollReveal key={b.label} delay={i * 80}>
+              <div className="flex flex-col items-center text-center p-6 rounded-xl bg-canvas">
+                <b.icon className="h-8 w-8 text-primary mb-3" />
+                <span className="font-medium text-sm">{b.label}</span>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -134,13 +149,17 @@ const Index = () => (
     {/* Industries */}
     <section className="py-20 bg-canvas">
       <div className="container">
-        <SectionHeading title="Industries We Serve" subtitle="AI automation tailored for your industry." />
+        <ScrollReveal>
+          <SectionHeading title="Industries We Serve" subtitle="AI automation tailored for your industry." />
+        </ScrollReveal>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          {industries.map((i) => (
-            <div key={i.label} className="flex flex-col items-center text-center p-6 rounded-xl bg-card hover:shadow-md transition-shadow">
-              <i.icon className="h-10 w-10 text-primary mb-3" />
-              <span className="font-medium">{i.label}</span>
-            </div>
+          {industries.map((ind, i) => (
+            <ScrollReveal key={ind.label} delay={i * 80}>
+              <div className="flex flex-col items-center text-center p-6 rounded-xl bg-card hover:shadow-md transition-shadow">
+                <ind.icon className="h-10 w-10 text-primary mb-3" />
+                <span className="font-medium">{ind.label}</span>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -149,15 +168,19 @@ const Index = () => (
     {/* Case Studies */}
     <section className="py-20 bg-card">
       <div className="container">
-        <SectionHeading title="Results That Speak" subtitle="See the impact AI automation has on businesses like yours." />
+        <ScrollReveal>
+          <SectionHeading title="Results That Speak" subtitle="See the impact AI automation has on businesses like yours." />
+        </ScrollReveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {caseStudies.map((c) => (
-            <div key={c.label} className="bg-canvas rounded-xl p-8 text-center">
-              <c.icon className="h-8 w-8 text-primary mx-auto mb-3" />
-              <div className="text-4xl font-extrabold text-primary mb-1">{c.metric}</div>
-              <div className="font-semibold mb-2">{c.label}</div>
-              <p className="text-sm text-muted-foreground">{c.desc}</p>
-            </div>
+          {caseStudies.map((c, i) => (
+            <ScrollReveal key={c.label} delay={i * 150}>
+              <div className="bg-canvas rounded-xl p-8 text-center">
+                <c.icon className="h-8 w-8 text-primary mx-auto mb-3" />
+                <div className="text-4xl font-extrabold text-primary mb-1">{c.metric}</div>
+                <div className="font-semibold mb-2">{c.label}</div>
+                <p className="text-sm text-muted-foreground">{c.desc}</p>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -166,36 +189,40 @@ const Index = () => (
     {/* Consultation CTA */}
     <section className="py-20 bg-primary" id="book">
       <div className="container text-center">
-        <SectionHeading
-          title="Ready to Automate Your Business?"
-          subtitle="Fill in the form and we'll get back to you within 24 hours."
-          light
-        />
-        <ConsultationForm variant="dark" />
+        <ScrollReveal>
+          <SectionHeading title="Ready to Automate Your Business?" subtitle="Fill in the form and we'll get back to you within 24 hours." light />
+        </ScrollReveal>
+        <ScrollReveal delay={200}>
+          <ConsultationForm variant="dark" />
+        </ScrollReveal>
       </div>
     </section>
 
     {/* Contact */}
     <section className="py-20 bg-canvas" id="contact">
       <div className="container">
-        <SectionHeading title="Get In Touch" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto text-center">
-          <div className="flex flex-col items-center gap-2">
-            <MapPin className="h-6 w-6 text-primary" />
-            <span className="font-medium">Location</span>
-            <p className="text-sm text-muted-foreground">Mira Bhayandar, Maharashtra, India</p>
+        <ScrollReveal>
+          <SectionHeading title="Get In Touch" />
+        </ScrollReveal>
+        <ScrollReveal delay={150}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto text-center">
+            <div className="flex flex-col items-center gap-2">
+              <MapPin className="h-6 w-6 text-primary" />
+              <span className="font-medium">Location</span>
+              <p className="text-sm text-muted-foreground">Mira Bhayandar, Maharashtra, India</p>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Mail className="h-6 w-6 text-primary" />
+              <span className="font-medium">Email</span>
+              <p className="text-sm text-muted-foreground">hello@quantrio.in</p>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <PhoneCall className="h-6 w-6 text-primary" />
+              <span className="font-medium">Phone</span>
+              <p className="text-sm text-muted-foreground">+91 98XXX XXXXX</p>
+            </div>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <Mail className="h-6 w-6 text-primary" />
-            <span className="font-medium">Email</span>
-            <p className="text-sm text-muted-foreground">hello@quantrio.in</p>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <PhoneCall className="h-6 w-6 text-primary" />
-            <span className="font-medium">Phone</span>
-            <p className="text-sm text-muted-foreground">+91 98XXX XXXXX</p>
-          </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   </Layout>
