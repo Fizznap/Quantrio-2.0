@@ -1,19 +1,26 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, AlertTriangle } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trackEvent } from "@/lib/analytics";
-import { supabase } from "@/integrations/supabase/client";
+import { checkRateLimit, recordSubmission, getResetCountdown } from "@/lib/rateLimiter";
 import { useToast } from "@/hooks/use-toast";
+
+const EDGE_FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-audit`;
 
 const FreeAudit = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [rateLimited, setRateLimited] = useState<{ resetsAt: Date } | null>(() => {
+    // Check on mount so the form is blocked immediately if limit already hit
+    const { allowed, resetsAt } = checkRateLimit();
+    return allowed ? null : { resetsAt: resetsAt! };
+  });
   const [formData, setFormData] = useState({
     name: "",
     businessName: "",
@@ -39,9 +46,18 @@ const FreeAudit = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // ── Client-side rate limit check ─────────────────────────────────────
+    const { allowed, resetsAt } = checkRateLimit();
+    if (!allowed) {
+      setRateLimited({ resetsAt: resetsAt! });
+      trackEvent("audit_rate_limited");
+      return;
+    }
+
     setLoading(true);
-    trackEvent("audit_form_submit", formData);
-    
+    trackEvent("audit_form_submit", { businessType: formData.businessType });
+
     const formattedMessage = `
 Business Type: ${formData.businessType}
 Website: ${formData.website || "N/A"}
@@ -51,22 +67,58 @@ What to automate:
 ${formData.automationGoals}
     `.trim();
 
-    const { error } = await supabase.from("consultation_submissions").insert({
-      name: formData.name.trim(),
-      business_name: formData.businessName.trim() || null,
-      phone: formData.phone.trim() || null,
-      email: formData.email.trim(),
-      message: formattedMessage,
-    });
+    // ── Call Edge Function (enforces server-side IP rate limit) ───────────
+    let responseOk = false;
+    let serverRateLimited = false;
+    try {
+      const res = await fetch(EDGE_FUNCTION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          business_name: formData.businessName.trim() || null,
+          phone: formData.phone.trim() || null,
+          message: formattedMessage,
+        }),
+      });
+
+      if (res.status === 429) {
+        serverRateLimited = true;
+      } else if (res.ok) {
+        responseOk = true;
+      }
+    } catch (err) {
+      console.error("[Quantrio] Edge Function unreachable:", err);
+      // Edge Function unavailable — do not fail silently in production,
+      // but for resilience we surface a generic error.
+    }
 
     setLoading(false);
 
-    if (error) {
-      toast({ title: "Something went wrong", description: "Please try again or contact us directly.", variant: "destructive" });
-    } else {
-      toast({ title: "Audit Requested Successfully" });
-      navigate("/audit-confirmation");
+    if (serverRateLimited) {
+      const resetDate = new Date(Date.now() + 3600 * 1000);
+      setRateLimited({ resetsAt: resetDate });
+      trackEvent("audit_rate_limited");
+      return;
     }
+
+    if (!responseOk) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // ── Record in client-side limiter only on success ─────────────────────
+    recordSubmission();
+    toast({ title: "Audit Requested Successfully" });
+    navigate("/audit-confirmation");
   };
 
   return (
@@ -82,6 +134,25 @@ ${formData.automationGoals}
             <p className="text-muted-foreground mb-8">
               Tell us a bit about your business, and we'll identify where you can save time and capture more leads using AI automation.
             </p>
+
+            {/* Rate limit warning banner */}
+            {rateLimited && (
+              <div className="mb-6 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-800/40 dark:bg-amber-900/20">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+                <div>
+                  <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">
+                    Too many requests. Please try again later.
+                  </p>
+                  <p className="mt-1 text-xs text-amber-700/80 dark:text-amber-400/80">
+                    You can submit again in {getResetCountdown(rateLimited.resetsAt)}.
+                    Need urgent help?{" "}
+                    <a href="mailto:hello@quantrio.in" className="underline underline-offset-2">
+                      Email us directly.
+                    </a>
+                  </p>
+                </div>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -157,8 +228,13 @@ ${formData.automationGoals}
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full mt-4" disabled={loading}>
-                {loading ? "Submitting..." : "Get Free Audit Report"}
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full mt-4"
+                disabled={loading || !!rateLimited}
+              >
+                {loading ? "Submitting..." : rateLimited ? "Limit Reached" : "Get Free Audit Report"}
               </Button>
             </form>
           </div>
